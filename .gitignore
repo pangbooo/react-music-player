@@ -3,6 +3,7 @@
 
 # production
 /dist
+/build
 
 
 npm-debug.log*
