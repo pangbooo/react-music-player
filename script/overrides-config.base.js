@@ -28,5 +28,5 @@ module.exports.stylusLoaderOptionsPlugin = new webpack.LoaderOptionsPlugin({
 module.exports.rootPath = resolve('src');
 
 function resolve(dir) {
-    return path.join(__dirname, dir)
+    return path.join(__dirname, '..',dir)
 }
