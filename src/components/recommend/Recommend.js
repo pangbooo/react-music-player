@@ -1,11 +1,14 @@
 import React from "react";
-import "./recommend.styl";
 import Swiper from 'swiper';
 import "swiper/dist/css/swiper.css"
-import { getCarousel, geNewAlbum } from "@/api/recommend"
-import {CODE_SUCCESS} from "@/api/config"
-import * as AlbumModel from '@/model/album';
+import "./recommend.styl";
+import LazyLoad, { forceCheck } from 'react-lazyload';
 import Scroll from '@/common/scroll/Scroll'
+import Loading from '@/common/loading/Loading';
+import * as AlbumModel from '@/model/album';
+import { getCarousel, geNewAlbum } from "@/api/recommend"
+import { CODE_SUCCESS } from "@/api/config"
+
 
 
 class Recommend extends React.Component {
@@ -13,6 +16,7 @@ class Recommend extends React.Component {
         super(props);
 
         this.state = {
+            loading: true,
             sliderList: [],
             newAlbums: [],
             refreshScroll: false
@@ -53,8 +57,10 @@ class Recommend extends React.Component {
                         return new Date(b.public_time).getTime() - new Date(a.public_time).getTime()
                     });
                     this.setState({
-                        newAlbums: albumList
+                        newAlbums: albumList,
+                        loading: false
                     }, ()=> {
+                        //刷新scroll
                         this.setState({
                             refreshScroll: true
                         })
@@ -72,7 +78,9 @@ class Recommend extends React.Component {
             return (
                 <div className='album-wrapper' key={album.mId}>
                     <div className='left'>
-                        <img src={album.img} width='100%' height='100%' alt={album.name} />
+                        <LazyLoad>
+                            <img src={album.img} width='100%' height='100%' alt={album.name} />
+                        </LazyLoad>
                     </div>
                     <div className='right'>
                         <div className='album-name'>{album.name}</div>
@@ -86,7 +94,7 @@ class Recommend extends React.Component {
 
         return (
             <div className="music-recommend">
-                <Scroll refresh={this.state.refreshScroll}>
+                <Scroll refresh={this.state.refreshScroll} onScroll={() => {forceCheck();}}>
                     <div>
                         <div className='slider-container'>
                             <div className='swiper-wrapper'>
@@ -113,7 +121,7 @@ class Recommend extends React.Component {
                         </div>
                     </div>
                 </Scroll>
-               
+                <Loading show={this.state.loading}/>
             </div>
         );
     }
