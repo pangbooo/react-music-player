@@ -2,13 +2,15 @@ const URL = {
     // 推荐轮播
     carousel: 'https://u.y.qq.com/cgi-bin/musicu.fcg',
     //最新专辑
-    newalbum: 'https://u.y.qq.com/cgi-bin/musicu.fcg'
+    newalbum: 'https://u.y.qq.com/cgi-bin/musicu.fcg',
+    // 专辑信息
+    albumInfo: 'https://u.y.qq.com/cgi-bin/musicu.fcg'
 }
 
 // 如不需要jsonp调用
 /*
-    PARAM.format = 'json
-    OPTION.param = 'callback
+    PARAM.format = 'json'
+    OPTION.param = 'callback'
 */
 
 const PARAM = {

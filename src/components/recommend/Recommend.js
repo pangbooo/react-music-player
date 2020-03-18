@@ -1,4 +1,5 @@
 import React from "react";
+import {Route} from 'react-router-dom'
 import Swiper from 'swiper';
 import "swiper/dist/css/swiper.css"
 import "./recommend.styl";
@@ -9,6 +10,7 @@ import * as AlbumModel from '@/model/album';
 import { getCarousel, geNewAlbum } from "@/api/recommend"
 import { CODE_SUCCESS } from "@/api/config"
 
+import Album from '../album/Album'
 
 
 class Recommend extends React.Component {
@@ -71,12 +73,24 @@ class Recommend extends React.Component {
 
     }
 
+    toAlbumDetail(url){
+        // scroll 组件会派发一个点击事件，不能使用链接跳转
+        return ()=> {
+            this.props.history.push({
+                pathname: url
+            })
+        }
+    }
+
     render() {
+        let { match } = this.props;
+        console.log('props', this.props);
+
         let albums = this.state.newAlbums.map(item => {
             //通过函数创建专辑对象
             let album = AlbumModel.createAlbumByList(item);
             return (
-                <div className='album-wrapper' key={album.mId}>
+                <div className='album-wrapper' key={album.mId} onClick={this.toAlbumDetail(`${match.url}/${album.mId}`)}> 
                     <div className='left'>
                         <LazyLoad>
                             <img src={album.img} width='100%' height='100%' alt={album.name} />
@@ -122,6 +136,7 @@ class Recommend extends React.Component {
                     </div>
                 </Scroll>
                 <Loading show={this.state.loading}/>
+                <Route path={`${match.url + '/:id'}`} component={Album}/>
             </div>
         );
     }
