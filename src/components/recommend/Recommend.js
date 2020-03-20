@@ -75,22 +75,18 @@ class Recommend extends React.Component {
 
     toAlbumDetail(url){
         // scroll 组件会派发一个点击事件，不能使用链接跳转
-        return ()=> {
-            this.props.history.push({
-                pathname: url
-            })
-        }
+        this.props.history.push({
+            pathname: url
+        })
     }
 
     render() {
         let { match } = this.props;
-        console.log('props', this.props);
-
         let albums = this.state.newAlbums.map(item => {
             //通过函数创建专辑对象
             let album = AlbumModel.createAlbumByList(item);
             return (
-                <div className='album-wrapper' key={album.mId} onClick={this.toAlbumDetail(`${match.url}/${album.mId}`)}> 
+                <div className='album-wrapper' key={album.mId} onClick={this.toAlbumDetail.bind(this,`${match.url}/${album.mId}`)}> 
                     <div className='left'>
                         <LazyLoad>
                             <img src={album.img} width='100%' height='100%' alt={album.name} />

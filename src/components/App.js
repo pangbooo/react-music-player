@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect, NavLink } from 'react-router-dom';
 import logo from '../assets/imgs/logo.png';
 import '../assets/stylus/reset.styl';
+import '../assets/stylus/font.styl'
 import './App.styl';
 
 import Recommend from "./recommend/Recommend"

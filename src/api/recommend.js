@@ -1,5 +1,5 @@
 import jsonp from './jsonp';
-import {URL, PARAM} from './config';
+import {URL, PARAM, OPTION} from './config';
 
 export function getCarousel(){
     const data = Object.assign({}, PARAM, {
@@ -40,19 +40,16 @@ export function geNewAlbum(){
 
 export function getAlbumInfo(albumMid){
     const data = Object.assign({}, PARAM,{
-        '-': albumMid,
-        g_tk: 5381,
-        loginUin: 0,
-        hostUin: 0,
-        format: "json",
-        platform: "yqq.json",
-        needNewCode: 0,
-        data: {"comm":{"ct":24,"cv":10000},"albumSonglist":{"method":"GetAlbumSongList","param":{"albumMid":"003GL7z20bhvk4","albumID":0,"begin":0,"num":10,"order":2},"module":"music.musichallAlbum.AlbumSongList"}}
+        albummid: albumMid,
+		g_tk: 1278911659,
+		hostUin: 0,
+		platform: "yqq",
+		needNewCode: 0
     });
     const option = {
         param: 'callback',
         prefix: 'callback'
     };
 
-    return jsonp(URL.albumInfo, data, option)
+    return jsonp(URL.albumInfo, data, OPTION)
 }
