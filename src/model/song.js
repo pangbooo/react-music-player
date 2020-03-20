@@ -14,19 +14,19 @@ export class Song{
 // 创建歌曲对象函数
 export function createSong(data){
     return new Song(
-        data.albumid,
-        data.albummid,
-        data.albumname,
+        data.songid,
+        data.songmid,
+        data.songname,
         `http://y.gtimg.cn/music/photo_new/T002R300x300M000${data.albummid}.jpg?max_age=2592000`,
         data.interval,
         "",
         filterSing(data.singer)
     )
+}
 
-    function filterSing(singers){
-        let singerArray = singers.map( singer => {
-            return singer.name
-        });
-        return singerArray.join('/');
-    }
+function filterSing(singers){
+    let singerArray = singers.map( singer => {
+        return singer.name
+    });
+    return singerArray.join('/');
 }

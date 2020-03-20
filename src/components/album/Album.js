@@ -4,6 +4,7 @@ import Header from '@/components/header/Header';
 import Scroll from '@/common/scroll/Scroll';
 import Loading from '@/common/loading/Loading';
 import { getAlbumInfo } from '@/api/recommend';
+import { getSongVKey } from '@/api/song';
 import { CODE_SUCCESS } from '../../api/config';
 import * as AlbumModel from "@/model/album"
 import * as SongModel from "@/model/song"
@@ -27,24 +28,16 @@ class Album extends React.Component {
             if(res){
                 console.log(res);
                 if(res.code === CODE_SUCCESS){
-                    let data = {
-                        album_id: res.data.id,
-                        album_mid: res.data.mid,
-                        album_name: res.data.name,
-                        singers: res.data.list[0].singer.map(singer => { 
-                            let newSinger = Object.assign({},singer);
-                            newSinger.singer_name = singer.name;
-                            return newSinger
-                        }),
-                        public_time: res.data.aDate,
-                    };
-                    let album = AlbumModel.createAlbumByList(data);
+                    
+                    let album = AlbumModel.createAlbumByDetail(res.data);
                     album.desc = res.data.desc;
                     
                     let songList = res.data.list;
                     let songs = [];
                     songList.forEach( item => {
                         let song = SongModel.createSong(item);
+                        //获取歌曲vkey
+                        this.getSongUrl(song, item.songmid);
                         songs.push(song);
                     });
 
@@ -58,6 +51,20 @@ class Album extends React.Component {
                             refreshScroll: true
                         })
                     })
+                }
+            }
+        })
+    }
+
+    getSongUrl(song, mId){
+        getSongVKey(mId).then(res => {
+            console.log('getSongVKey.......', res)
+            if(res){
+                if(res.code === CODE_SUCCESS){
+                    if(res.data.items){
+                        let item = res.data.items[0];
+                        song.url =  `http://dl.stream.qqmusic.qq.com/${item.filename}?vkey=${item.vkey}&guid=3655047200&fromtag=66`
+                    }
                 }
             }
         })

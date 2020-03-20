@@ -38,18 +38,13 @@ export function geNewAlbum(){
     return jsonp(URL.newalbum, data, option)
 }
 
-export function getAlbumInfo(albumMid){
-    const data = Object.assign({}, PARAM,{
+export function getAlbumInfo(albumMid) {
+    const data = Object.assign({}, PARAM, {
         albummid: albumMid,
-		g_tk: 1278911659,
-		hostUin: 0,
-		platform: "yqq",
-		needNewCode: 0
+        g_tk: 1278911659,
+        hostUin: 0,
+        platform: "yqq",
+        needNewCode: 0
     });
-    const option = {
-        param: 'callback',
-        prefix: 'callback'
-    };
-
-    return jsonp(URL.albumInfo, data, OPTION)
+    return jsonp(URL.albumInfo, data, OPTION);
 }
