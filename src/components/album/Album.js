@@ -1,18 +1,21 @@
 import React from 'react';
-import './album.styl';
+import ReactDOM from 'react-dom';
 import Header from '@/components/header/Header';
 import Scroll from '@/common/scroll/Scroll';
 import Loading from '@/common/loading/Loading';
+import { CSSTransition } from 'react-transition-group';
 import { getAlbumInfo } from '@/api/recommend';
 import { getSongVKey } from '@/api/song';
 import { CODE_SUCCESS } from '../../api/config';
 import * as AlbumModel from "@/model/album"
 import * as SongModel from "@/model/song"
+import './album.styl';
 
 class Album extends React.Component {
     constructor(props){
         super(props);
         this.state = {
+            show: false,
             loading: true,
             refreshScroll: false,
             album: {},
@@ -21,8 +24,15 @@ class Album extends React.Component {
     }
 
     componentDidMount(){
-        let albumMid = this.props.match.params.id;
+        let albumBgDOM = ReactDOM.findDOMNode(this.refs.albumBg);
+        let albumContainerDOM  = ReactDOM.findDOMNode(this.refs.albumContainer );
+        albumContainerDOM.style.top = albumBgDOM.offsetHeight + 'px'
 
+        this.setState({
+            show: true
+        });
+
+        let albumMid = this.props.match.params.id;
         getAlbumInfo(albumMid).then((res) => {
             console.log("获取专辑详情：");
             if(res){
@@ -58,7 +68,6 @@ class Album extends React.Component {
 
     getSongUrl(song, mId){
         getSongVKey(mId).then(res => {
-            console.log('getSongVKey.......', res)
             if(res){
                 if(res.code === CODE_SUCCESS){
                     if(res.data.items){
@@ -68,6 +77,26 @@ class Album extends React.Component {
                 }
             }
         })
+    }
+
+    scroll({y}){
+        let albumBgDOM = ReactDOM.findDOMNode(this.refs.albumBg);
+        let albumFixedBgDOM  = ReactDOM.findDOMNode(this.refs.albumFixedBg );
+        let playButtonWrapperDOM = ReactDOM.findDOMNode(this.refs.playButtonWrapper)
+
+        //scroll to top
+        if(y < 0){
+            if( Math.abs(y) + 55 > albumBgDOM.offsetHeight ){
+                albumFixedBgDOM.style.display = 'block';
+            }else{
+                albumFixedBgDOM.style.display = 'none'
+            }
+        }else{
+            let transform = `scale( ${1+y*0.004}  , ${1+y*0.004})`;
+            albumBgDOM.style['webkitTransform'] = transform;
+            albumBgDOM.style['transform'] = transform;
+            playButtonWrapperDOM.style.marginTop = `${y}px`
+        }
     }
 
     render(){
@@ -81,41 +110,43 @@ class Album extends React.Component {
             )
         })
         return(
-            <div className='music-album'>
-                <Header title={album.name}/>
-                <div style={{position:'relative'}}>
-                    <div className='album-img' ref='album-img' style={{backgroundImage: `url(${album.img})`}}>
-                        <div className='filter'></div>
+            <CSSTransition in={this.state.show} timeout={300} classNames='translate'>
+                <div className='music-album'>
+                    <Header title={album.name}/>
+                    <div style={{position:'relative'}}>
+                        <div className='album-img' ref='albumBg' style={{backgroundImage: `url(${album.img})`}}>
+                            <div className='filter'></div>
+                        </div>
+                        <div className='album-img fixed' ref='albumFixedBg' style={{backgroundImage: `url(${album.img})`}}>
+                            <div className='filter'></div>
+                        </div>
+                        <div className='play-wrapper' ref='playButtonWrapper'>
+                            <div className='play-button'>
+                                <i className='icon-play'></i>
+                                <span>播放全部</span>
+                            </div>
+                        </div>
                     </div>
-                    <div className='album-img fixed' ref='albumFixedBg' style={{backgroundImage: `url(${album.img})`}}>
-                        <div className='filter'></div>
-                    </div>
-                    <div className='play-wrapper' ref='playButtonWrapper'>
-                        <div className='play-button'>
-                            <i className='icon-play'></i>
-                            <span>播放全部</span>
+                    <div ref='albumContainer' className='album-container'>
+                        <div className='album-scroll' style={this.state.loading === true ? {display:"none"} : {}}>
+                            <Scroll refresh={this.state.refreshScroll} onScroll={this.scroll.bind(this)}>
+                                <div className='album-wrapper'>
+                                    <div className="song-count">专辑 共{songs.length}首</div>
+                                    <div className="song-list">
+                                        {songs}
+                                    </div>
+                                    <div className="album-info" style={album.desc? {} : {display:"none"}}>
+                                        <h1 className="album-title">专辑简介</h1>
+                                        <div className="album-desc">
+                                            {album.desc}
+                                        </div>
+                                    </div>
+                                </div>
+                            </Scroll>
                         </div>
                     </div>
                 </div>
-                <div ref='albumContainer' className='album-container'>
-                    <div className='album-scroll' style={this.state.loading === true ? {display:"none"} : {}}>
-                        <Scroll refresh={this.state.refreshScroll}>
-                            <div className='album-wrapper'>
-                                <div className="song-count">专辑 共{songs.length}首</div>
-                                <div className="song-list">
-                                    {songs}
-                                </div>
-                                <div className="album-info" style={album.desc? {} : {display:"none"}}>
-                                    <h1 className="album-title">专辑简介</h1>
-                                    <div className="album-desc">
-                                        {album.desc}
-                                    </div>
-                                </div>
-                            </div>
-                        </Scroll>
-                    </div>
-                </div>
-            </div>
+            </CSSTransition>
         )
     }
 }
