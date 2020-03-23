@@ -8,6 +8,8 @@ import './App.styl';
 import Recommend from "./recommend/Recommend"
 import Ranking from "./ranking/Ranking"
 import Search from "./search/Search"
+import Player from "../containers/Player"
+
 
 function App() {
   return (
@@ -48,6 +50,7 @@ function App() {
               <Route component={Recommend} />
           </Switch>
         </div>
+        <Player />
       </div>
       </Router>
   );

@@ -10,7 +10,7 @@ import * as AlbumModel from '@/model/album';
 import { getCarousel, geNewAlbum } from "@/api/recommend"
 import { CODE_SUCCESS } from "@/api/config"
 
-import Album from '../album/Album'
+import Album from '@/containers/Album'
 
 
 class Recommend extends React.Component {
