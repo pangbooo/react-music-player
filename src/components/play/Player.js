@@ -12,6 +12,7 @@ class Player extends React.Component {
         this.currentSong = new Song( 0, "", "", "", 0, "", "");
         this.currentIndex = 0;
         this.playModes = ["list", "single", "shuffle"];  //播放模式： list-列表 single-单曲 shuffle-随机
+        this.isFirstPlay = true; 
 
         this.state = {
             currentTime: 0,
@@ -26,14 +27,46 @@ class Player extends React.Component {
         this.playerDOM = ReactDOM.findDOMNode(this.refs.player);
         this.playerBgDOM = ReactDOM.findDOMNode(this.refs.playerBg);
 
+        //兼容手机端canplay事件触发后第一次调用play()方法无法自动播放的问题
+        if(this.isFirstPlay === true){
+            this.audioDOM.play();
+            this.isFirstPlay = false;
+        }
 
+        this.audioDOM.addEventListener('canplay', () => {
+            this.audioDOM.play();
+            this.startImgRotate();
+
+            this.setState({
+                playStatus: true
+            });
+        }, false);
+
+        this.audioDOM.addEventListener('timeupdate', () => {
+            if(this.state.playStatus === true){
+                this.setState({
+                    playProgress: this.audioDOM.currentTime / this.audioDOM.duration,
+                    currentTime: this.audioDOM.currentTime
+                })
+            }
+        }, false)
     }
      
     render() {
+        //从redux中获取当前播放歌曲
+        if(this.props.currentSong && this.props.currentSong.url){
+            if(this.currentSong.id !== this.props.currentSong.id){
+                this.currentSong = this.props.currentSong;
+                this.audioDOM.src = this.currentSong.url;
+                //记载资源， ios需要调用此方法
+                this.audioDOM.load();
+            }
+        }
         let song = this.currentSong;
         let playBg = song.img ? song.img : require('@/assets/imgs/play_bg.jpg');
         let playButtonClass = this.state.playStatus === true ? 'icon-pause' : 'icon-play';
         song.playStatus = this.state.playStatus;
+
 
         return(
             <div className='player-contaier'>

@@ -85,10 +85,10 @@ class Progress extends React.Component {
     }
 }
 
-Progress.PropTypes = {
+Progress.propTypes = {
     progress: PropTypes.number.isRequired,
     disableButton: PropTypes.bool,
-    disableDrag: PropTypes.bool.isRequired.bind,
+    disableDrag: PropTypes.bool,
     onDragStart: PropTypes.func,
     onDrag: PropTypes.func,
     onDragEnd: PropTypes.func
