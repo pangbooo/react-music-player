@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Header from '@/components/header/Header';
 import Scroll from '@/common/scroll/Scroll';
-import Loading from '@/common/loading/Loading';
 import { CSSTransition } from 'react-transition-group';
 import { getAlbumInfo } from '@/api/recommend';
 import { getSongVKey } from '@/api/song';

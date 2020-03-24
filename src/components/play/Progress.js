@@ -15,7 +15,7 @@ class Progress extends React.Component {
         let progressBarDOM = ReactDom.findDOMNode(this.refs.progressBar);
         let progressDOM = ReactDom.findDOMNode(this.refs.progress);
         let progressButtonDOM = ReactDom.findDOMNode(this.refs.progressButton);
-        this.progressBarWidth = progressBar.offsetWidth;
+        this.progressBarWidth = progressBarDOM.offsetWidth;
 
         if(disableButton !== true && disableDrag !== true){
             let downX = 0; //触摸开始的位置
@@ -64,7 +64,7 @@ class Progress extends React.Component {
     render(){
         //进度值：范围 0-1
         let {progress, disableButton} = this.props;
-        if(!progerss) progerss = 0;
+        if(!progress) progress = 0;
 
         //button left value
         let progressButtonOffsetLeft = 0;
@@ -75,7 +75,7 @@ class Progress extends React.Component {
         return(
             <div className='progress-bar' ref="progressBar">
                 <div className="progress-load"></div>
-                <div className='progress' style={{width:`${progerss*100}%`}} ref='progress'></div>
+                <div className='progress' style={{width:`${progress*100}%`}} ref='progress'></div>
                 {
                     disableButton === true ? '' :
                     <div className='progress-button' style={{left:`${progressButtonOffsetLeft}px`}} ref='progressButton'></div>
