@@ -5,10 +5,13 @@ import "./progress.styl"
 
 class Progress extends React.Component {
     componentDidUpdate() {
-
+        //组件更新后重新获取进度条总宽度
+        // if (!this.progressBarWidth) {
+        //     this.progressBarWidth = ReactDOM.findDOMNode(this.refs.progressBar).offsetWidth;
+        // }
     }
     componentDidMount() {
-        let {disableButton, disableDrag, onDragStart, onDragDrag, onDragEnd} = this.props;
+        let {disableButton, disableDrag, onDragStart, onDrag, onDragEnd} = this.props;
         let progressBarDOM = ReactDom.findDOMNode(this.refs.progressBar);
         let progressDOM = ReactDom.findDOMNode(this.refs.progress);
         let progressButtonDOM = ReactDom.findDOMNode(this.refs.progressButton);
@@ -42,7 +45,19 @@ class Progress extends React.Component {
                     btnLeft = 0;
                 }
 
-            })
+                touch.target.style.left = btnLeft + 'px'; //设置按钮left值
+                progressDOM.style.width = btnLeft / this.progressBarWidth * 100 + '%'; //设置进度width值
+                
+                if(onDrag){
+                    onDrag(btnLeft / this.progressBarWidth )
+                }
+            });
+
+            progressButtonDOM.addEventListener('touchend', (e) => {
+                if(onDragEnd){
+                    onDragEnd()
+                }
+            });
         }
 
     }
@@ -75,7 +90,7 @@ Progress.PropTypes = {
     disableButton: PropTypes.bool,
     disableDrag: PropTypes.bool.isRequired.bind,
     onDragStart: PropTypes.func,
-    onDragDrag: PropTypes.func,
+    onDrag: PropTypes.func,
     onDragEnd: PropTypes.func
 }
 
