@@ -2,7 +2,6 @@ import React from "react"
 import ReactDOM from 'react-dom'
 import { CSSTransition } from 'react-transition-group';
 import { Song } from '@/model/song'
-import Header from '@/components/header/Header'
 import Progress from './Progress'
 import './play.styl'
 
@@ -14,12 +13,13 @@ class Player extends React.Component {
         this.currentIndex = 0;
         this.playModes = ["list", "single", "shuffle"];  //播放模式： list-列表 single-单曲 shuffle-随机
         this.isFirstPlay = true; 
+        this.dragProgress = 0;
 
         this.state = {
-            currentTime: 0,
-            playProgress: 0,
-            playStatus: false,
-            currentPlayMode: 0
+            currentTime: 0, //歌曲播放时长
+            playProgress: 0, //歌曲播放进度
+            playStatus: false, //歌曲开始或暂停
+            currentPlayMode: 0 //歌曲播放模式
         }
     }
     componentDidUpdate(){
@@ -53,7 +53,42 @@ class Player extends React.Component {
             }
         }, false);
 
-        this.audioDOM.addEventListener('error', ()=>{alert('歌曲加载出错！'), false})
+        this.audioDOM.addEventListener('ended', () => {
+            if(this.props.playSongs.length === 1){ //歌曲列表只有一首歌
+                if(this.state.currentPlayMode === 1){ //单曲循环
+                    //继续播放当前歌曲
+                    this.audioDOM.play();
+                }else{
+                    this.audioDOM.pause();
+                    this.stopImgRotate();
+                    this.setState({
+                        currentTime: 0,
+                        playProgress: 0,
+                        playStatus: false, 
+                    });
+                }
+            }else if(this.props.playSongs.length > 1){
+                let currentIndex = this.currentIndex;
+                if(this.state.currentPlayMode === 0){ //列表循环
+                    if(currentIndex === this.props.playSongs.length - 1){
+                        currentIndex = 0;
+                    }else{
+                        currentIndex = currentIndex + 1;
+                    }
+                }else if(this.state.currentPlayMode === 1){ //单曲循环
+                    //继续播放当前歌曲
+                    this.audioDOM.play();
+                    return;
+                }else if(this.state.currentPlayMode === 2){ //随机播放
+                    currentIndex = parseInt(Math.random() * this.props.playSongs.length, 10)
+                }
+                this.props.changeCurrentSong(this.props.playSongs[currentIndex]);
+                this.currentIndex = currentIndex;
+            }
+
+        }, false);
+
+        this.audioDOM.addEventListener('error', ()=>{alert('歌曲加载出错！')}, false)
     }
     /**
      * 开始旋转图片
@@ -66,6 +101,13 @@ class Player extends React.Component {
             this.singerImgDOM.style['animationPlayState'] = 'running';
         }
     }
+    /**
+     * 暂停旋转图片
+     */
+    stopImgRotate = () => {
+        this.singerImgDOM.style['webkitAnimationPlayState'] = 'paused';
+        this.singerImgDOM.style['animationPlayState'] = 'paused';
+    }
 
     /**
      * 隐藏播放器
@@ -73,15 +115,121 @@ class Player extends React.Component {
     hidePlayer = () => {
         this.props.showMusicPlayer(false)
     }
+
+    /**
+     * 修改播放模式
+     * */ 
+    changePlayMode = () => {
+        if(this.state.currentPlayMode === this.playModes.length -1){
+            this.setState({
+                currentPlayMode: 0
+            })
+        }else{
+            this.setState({
+                currentPlayMode: this.state.currentPlayMode + 1
+            })
+        }
+    }
+    /**
+     * 播放或暂停歌曲
+    */
+   playOrPause = () => {
+        if(this.audioDOM.paused){
+            this.audioDOM.play();
+            this.startImgRotate();
+            this.setState({playStatus:true})
+        }else{
+            this.audioDOM.pause();
+            this.stopImgRotate();
+            this.setState({playStatus:false})
+        }
+   }
+   /**
+   * 上一首
+   */
+    previous = () => {
+        if (this.props.playSongs.length > 0 && this.props.playSongs.length !== 1) {
+            let currentIndex = this.currentIndex;
+            if (this.state.currentPlayMode === 0) {  //列表播放
+                if(currentIndex === 0){
+                    currentIndex = this.props.playSongs.length - 1;
+                }else{
+                    currentIndex = currentIndex - 1;
+                }
+            } else if (this.state.currentPlayMode === 1) {  //单曲循环
+                currentIndex = this.currentIndex;
+            } else {  //随机播放
+                let index = parseInt(Math.random() * this.props.playSongs.length, 10);
+                currentIndex = index;
+            }
+            this.props.changeCurrentSong(this.props.playSongs[currentIndex]);
+            this.currentIndex = currentIndex;
+        }
+    }
+
+    /**
+     * 下一首
+     */
+    next = () => {
+        if (this.props.playSongs.length > 0  && this.props.playSongs.length !== 1) {
+            let currentIndex = this.currentIndex;
+            if (this.state.currentPlayMode === 0) {  //列表播放
+                if(currentIndex === this.props.playSongs.length - 1){
+                    currentIndex = 0;
+                }else{
+                    currentIndex = currentIndex + 1;
+                }
+            } else if (this.state.currentPlayMode === 1) {  //单曲循环
+                currentIndex = this.currentIndex;
+            } else {  //随机播放
+                let index = parseInt(Math.random() * this.props.playSongs.length, 10);
+                currentIndex = index;
+            }
+            this.props.changeCurrentSong(this.props.playSongs[currentIndex]);
+            this.currentIndex = currentIndex;
+        }
+    }
+
+    handleDrag = (progress) => {
+        if(this.audioDOM.duration > 0){
+            this.audioDOM.pause();
+            this.stopImgRotate();
+
+            this.setState({playStatus: false});
+            this.dragProgress = progress
+        }
+    }
+
+    handleDragEnd = () => {
+        if(this.audioDOM.duration > 0){
+            let currentTime =  this.audioDOM.duration * this.dragProgress;
+
+            //组件更新后从拖拽后的时间继续播放
+            this.setState({
+                currentTime: currentTime,
+                playProgress: this.dragProgress
+            },() => {
+                this.audioDOM.currentTime = currentTime;
+                this.audioDOM.play();
+                this.startImgRotate();
+
+                this.setState({
+                    playStatus: true
+                });
+
+                this.dragProgress = 0;
+            })
+
+        }
+    }
      
     render() {
         //从redux中获取当前播放歌曲
         if(this.props.currentSong && this.props.currentSong.url){
             if(this.currentSong.id !== this.props.currentSong.id){
-                this.currentSong = this.props.currentSong;
+                this.currentSong = this.props.currentSong; //当前播放歌曲的数据来源保持一致，从 this.props.currentSong获取
                 this.audioDOM.src = this.currentSong.url;
-                //记载资源， ios需要调用此方法
-                this.audioDOM.load();
+                this.audioDOM.load();//记载资源， ios需要调用此方法
             }
         }
         let song = this.currentSong;
@@ -124,7 +272,7 @@ class Player extends React.Component {
                                 <div className='progress-wrapper'>
                                     <span className='current-time'>{getTime(this.state.currentTime)}</span>
                                     <div className='play-progress'>
-                                        <Progress progress={this.state.playProgress}/>
+                                        <Progress progress={this.state.playProgress} onDrag={this.handleDrag} onDragEnd={this.handleDragEnd}/>
                                     </div>
                                     <span className='total-time'>{getTime(song.duration)}</span>
                                 </div>

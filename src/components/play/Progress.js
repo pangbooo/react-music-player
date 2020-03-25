@@ -6,9 +6,9 @@ import "./progress.styl"
 class Progress extends React.Component {
     componentDidUpdate() {
         //组件更新后重新获取进度条总宽度
-        // if (!this.progressBarWidth) {
-        //     this.progressBarWidth = ReactDOM.findDOMNode(this.refs.progressBar).offsetWidth;
-        // }
+        if (!this.progressBarWidth) {
+            this.progressBarWidth = ReactDom.findDOMNode(this.refs.progressBar).offsetWidth;
+        }
     }
     componentDidMount() {
         let {disableButton, disableDrag, onDragStart, onDrag, onDragEnd} = this.props;
@@ -36,7 +36,6 @@ class Progress extends React.Component {
 
                 let touch = e.touches[0];
                 let diffX = touch.clientX - downX;
-
                 let btnLeft = buttonLeft + diffX;
 
                 if(btnLeft > this.progressBarWidth){
@@ -44,9 +43,10 @@ class Progress extends React.Component {
                 }else if(btnLeft < 0){
                     btnLeft = 0;
                 }
-
+                
                 touch.target.style.left = btnLeft + 'px'; //设置按钮left值
                 progressDOM.style.width = btnLeft / this.progressBarWidth * 100 + '%'; //设置进度width值
+
                 
                 if(onDrag){
                     onDrag(btnLeft / this.progressBarWidth )
