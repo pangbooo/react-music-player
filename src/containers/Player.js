@@ -3,7 +3,7 @@ import Player from '../components/play/Player';
 import {showPlayer, changeSong} from "../redux/actions"
 
 const mapStateToProps = (state) => ({
-    showPlayer: state.showPlayer,
+    showStatus: state.showStatus,
     currentSong: state.song,
     playSongs: state.songs
 });
