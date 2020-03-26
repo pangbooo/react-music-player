@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { CSSTransition } from 'react-transition-group';
 import { Song } from '@/model/song'
 import Progress from './Progress'
+import MiniPlayer from './MiniPlayer'
 import './play.styl'
 
 class Player extends React.Component {
@@ -115,6 +116,12 @@ class Player extends React.Component {
     hidePlayer = () => {
         this.props.showMusicPlayer(false)
     }
+    /**
+     * 显示播放器
+    */
+   showPlayer = () => {
+        this.props.showMusicPlayer(true)
+   }
 
     /**
      * 修改播放模式
@@ -299,6 +306,13 @@ class Player extends React.Component {
                         <audio ref='audio'></audio>
                     </div>
                 </CSSTransition>
+                <MiniPlayer song={song} 
+                            progress={this.state.playProgress}
+                            playOrPause = {this.playOrPause}
+                            next = {this.next}
+                            showStatus={this.props.showStatus}
+                            showMiniPlayer={this.showPlayer}
+                            />
             </div>
             
         )
