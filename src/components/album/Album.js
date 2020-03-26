@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Header from '@/components/header/Header';
 import Scroll from '@/common/scroll/Scroll';
+import { getTransitionEndName } from "@/util/event"
 import { CSSTransition } from 'react-transition-group';
 import { getAlbumInfo } from '@/api/recommend';
 import { getSongVKey } from '@/api/song';
@@ -26,6 +27,8 @@ class Album extends React.Component {
         let albumBgDOM = ReactDOM.findDOMNode(this.refs.albumBg);
         let albumContainerDOM  = ReactDOM.findDOMNode(this.refs.albumContainer );
         albumContainerDOM.style.top = albumBgDOM.offsetHeight + 'px'
+
+        this.initMusicIco();
 
         this.setState({
             show: true
@@ -99,8 +102,11 @@ class Album extends React.Component {
     }
 
     selectSong(song){
-        this.props.setSongs([song]);
-        this.props.changeCurrentSong(song);
+        return (e) => {
+            this.props.setSongs([song]);
+            this.props.changeCurrentSong(song);
+            this.startMusicIcoAnimation(e.nativeEvent);
+        }
     }
 
     playAll = () => {
@@ -112,11 +118,58 @@ class Album extends React.Component {
         }
     }
 
+    initMusicIco = () => {
+        this.musicIcos = [];
+        this.musicIcos.push(ReactDOM.findDOMNode(this.refs.musicIco1));
+        this.musicIcos.push(ReactDOM.findDOMNode(this.refs.musicIco2));
+        this.musicIcos.push(ReactDOM.findDOMNode(this.refs.musicIco3));
+
+        this.musicIcos.forEach((item) => {
+            item.run = false;
+            let transitionEndName = getTransitionEndName(item);
+            item.addEventListener(transitionEndName, function(){
+                this.style.display = 'none';
+                this.style["webkitTransform"] = "translate3d(0, 0, 0)";
+                this.style["transform"] = "translate3d(0, 0, 0)";
+                this.run = false;
+
+                let icon = this.querySelector("div");
+                icon.style["webkitTransform"] = "translate3d(0, 0, 0)";
+                icon.style["transform"] = "translate3d(0, 0, 0)";
+
+            }, false)
+
+        });
+    }
+
+    startMusicIcoAnimation = ({clientX, clientY}) => {
+        if(this.musicIcos.length > 0){
+            for(let i = 0; i< this.musicIcos.length; i++){
+                let item = this.musicIcos[i];
+                //选择一个未在动画中的元素开始动画
+                if(item.run === false){
+                    item.style.top = clientY + 'px';
+                    item.style.left = clientX + 'px';
+                    item.style.display = 'inline-block';
+                    setTimeout(() =>{
+                        item.run = true;
+                        item.style['webkitTransform'] = 'translate3d(0,1000px,0)';
+                        item.style['transform'] = 'translate3d(0,1000px,0)';
+
+                        let icon = item.querySelector('div');
+                        icon.style['webkitTransform'] = 'translate3d(-30px,0,0)';
+                        icon.style['transform'] = 'translate3d(-30px,0,0)';
+                    },10)
+                }
+            }
+        }
+    }
+
     render(){
         let album = this.state.album;
         let songs = this.state.songs.map( song => {
             return(
-                <div className='song' key={song.id} onClick={this.selectSong.bind(this,song)}>
+                <div className='song' key={song.id} onClick={this.selectSong(song)}>
                     <div className='song-name'>{song.name}</div>
                     <div className='song-singer'>{song.singer}</div>
                 </div>
@@ -157,6 +210,15 @@ class Album extends React.Component {
                                 </div>
                             </Scroll>
                         </div>
+                    </div>
+                    <div className='music-ico' ref='musicIco1'>
+                        <div className='icon-fe-music'></div>
+                    </div>
+                    <div className='music-ico' ref='musicIco2'>
+                        <div className='icon-fe-music'></div>
+                    </div>
+                    <div className='music-ico' ref='musicIco3'>
+                        <div className='icon-fe-music'></div>
                     </div>
                 </div>
             </CSSTransition>
