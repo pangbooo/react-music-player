@@ -8,7 +8,7 @@ import './App.styl';
 import Recommend from "./recommend/Recommend"
 import Ranking from "./ranking/Ranking"
 import Search from "./search/Search"
-import Player from "../containers/Player"
+import MusicPlayer from "./play/MusicPlayer"
 
 
 function App() {
@@ -50,7 +50,7 @@ function App() {
               <Route component={Recommend} />
           </Switch>
         </div>
-        <Player />
+        <MusicPlayer />
       </div>
       </Router>
   );

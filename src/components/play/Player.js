@@ -11,7 +11,7 @@ class Player extends React.Component {
         super(props);
 
         this.currentSong = new Song( 0, "", "", "", 0, "", "");
-        this.currentIndex = 0;
+        this.currentIndex = this.props.currentIndex;
         this.playModes = ["list", "single", "shuffle"];  //播放模式： list-列表 single-单曲 shuffle-随机
         this.isFirstPlay = true; 
         this.dragProgress = 0;
@@ -84,7 +84,7 @@ class Player extends React.Component {
                     currentIndex = parseInt(Math.random() * this.props.playSongs.length, 10)
                 }
                 this.props.changeCurrentSong(this.props.playSongs[currentIndex]);
-                this.currentIndex = currentIndex;
+                this.props.changeCurrentIndex(currentIndex);
             }
 
         }, false);
@@ -170,7 +170,7 @@ class Player extends React.Component {
                 currentIndex = index;
             }
             this.props.changeCurrentSong(this.props.playSongs[currentIndex]);
-            this.currentIndex = currentIndex;
+            this.props.changeCurrentIndex(currentIndex);
         }
     }
 
@@ -193,7 +193,7 @@ class Player extends React.Component {
                 currentIndex = index;
             }
             this.props.changeCurrentSong(this.props.playSongs[currentIndex]);
-            this.currentIndex = currentIndex;
+            this.props.changeCurrentIndex(currentIndex);
         }
     }
 
@@ -228,6 +228,13 @@ class Player extends React.Component {
             })
 
         }
+    }
+
+    /**
+     * 显示下方播放列表
+    */
+   showPlayList = () => {
+        this.props.showList(true);
     }
      
     render() {
