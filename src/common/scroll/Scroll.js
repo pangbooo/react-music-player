@@ -16,7 +16,9 @@ class Scroll extends React.Component{
             this.bScroll = new BScroll(this.scrollView, {
                 //实时派发scroll事件
                 probeType: 3,
-                click: this.props.click
+                click: this.props.click,
+                scrollX: this.props.direction === 'horizontal',
+                scrolly: this.props.direction === 'vertical',
             })
 
             if(this.props.onScroll){
@@ -42,12 +44,14 @@ class Scroll extends React.Component{
 }
 
 Scroll.defaultProps = {
+    direction: 'vertical',
     click: true,
     refresh: false,
     onScroll: null
 }
 
 Scroll.propTypes = {
+    direction: PropTypes.oneOf(['vertical', 'horizontal']),
     click: PropTypes.bool,
     refresh: PropTypes.bool,
     onScroll: PropTypes.func

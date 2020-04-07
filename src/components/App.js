@@ -9,6 +9,7 @@ import Recommend from "./recommend/Recommend"
 import Ranking from "./ranking/Ranking"
 import Search from "./search/Search"
 import MusicPlayer from "./play/MusicPlayer"
+import SingerList from "./singer/SingerList"
 
 
 function App() {
@@ -31,6 +32,11 @@ function App() {
             </NavLink>
           </div>
           <div className='tab-item'>
+              <NavLink to='/singer' className='nav-link'>
+                <span>歌手</span>
+              </NavLink>
+          </div>
+          <div className='tab-item'>
               <NavLink to='/search' className='nav-link'>
                 <span>搜索</span>
               </NavLink>
@@ -46,6 +52,7 @@ function App() {
               <Route path='/recommend' component={Recommend}/>
               <Route path="/ranking" component={Ranking} />
               <Route path="/search" component={Search} />
+              <Route path="/singer" component={SingerList} />
               <Redirect from='/' to='/recommend'/>
               <Route component={Recommend} />
           </Switch>
