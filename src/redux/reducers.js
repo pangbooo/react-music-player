@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
 import * as ActionTypes from'./actionTypes';
 
+import localStorage from '@/util/storage'
+
 const initialState = {
     showStatus: false, //显示状态
-    song:{}, //当前歌曲
-    songs:[] //歌曲列表
+    song: localStorage.getCurrentSong(), //当前歌曲
+    songs: localStorage.getSongs() //歌曲列表
 }
 
 //拆分Reducer
@@ -23,6 +25,7 @@ function showStatus(showStatus=initialState.showStatus, action){
 function song(song=initialState.song, action){
     switch(action.type){
         case ActionTypes.CHANGE_SONG:
+            localStorage.setCurrentSong(song);
             return action.song;
         default: 
             return song;
@@ -33,9 +36,12 @@ function song(song=initialState.song, action){
 function songs(songs=initialState.songs, action){
     switch(action.type){
         case ActionTypes.SET_SONGS:
+            localStorage.setSongs(songs);
             return action.songs;
         case ActionTypes.REMOVE_SONG_FROM_LIST:
-            return songs.filter(song => song.id !== action.id);
+            let newSongs = songs.filter(song => song.id !== action.id);
+            localStorage.setSongs(newSongs);
+            return newSongs
         default: 
             return songs;
     }

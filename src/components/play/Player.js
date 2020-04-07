@@ -141,7 +141,11 @@ class Player extends React.Component {
      * 播放或暂停歌曲
     */
    playOrPause = () => {
-        if(this.audioDOM.paused){
+        if(this.state.playStatus === false){
+            if(this.first === undefined){
+                this.audioDOM.src = this.currentSong.url;
+                this.first = true
+            }
             this.audioDOM.play();
             this.startImgRotate();
             this.setState({playStatus:true})
@@ -242,8 +246,11 @@ class Player extends React.Component {
         if(this.props.currentSong && this.props.currentSong.url){
             if(this.currentSong.id !== this.props.currentSong.id){
                 this.currentSong = this.props.currentSong; //当前播放歌曲的数据来源保持一致，从 this.props.currentSong获取
-                this.audioDOM.src = this.currentSong.url;
-                this.audioDOM.load();//记载资源， ios需要调用此方法
+                if( this.audioDOM){
+                    this.audioDOM.src = this.currentSong.url;
+                    this.audioDOM.load();//加载资源， ios需要调用此方法
+                }
+                
             }
         }
         let song = this.currentSong;
