@@ -7,7 +7,7 @@ import LazyLoad, {forceCheck} from 'react-lazyload'
 import {getSingerList} from "@/api/singer"
 import {CODE_SUCCESS} from "@/api/config"
 import * as SingerModel from "@/model/singer"
-import Singer from './Singer'
+import Singer from "@/containers/Singer"
 import './singerlist.styl'
 
 
@@ -160,7 +160,7 @@ class SingerList extends React.Component{
 
         let singers = this.state.singers.map(singer => {
             return (
-                <div className="singer-wrapper" key={singer.id} onClick={() => {this.goDetail(`${this.props.match.url}/${singer.id}`)}}>
+                <div className="singer-wrapper" key={singer.id} onClick={() => {this.goDetail(`${this.props.match.url}/${singer.mId}`)}}>
                     <div className="singer-img">
                         <LazyLoad height={50}>
                             <img src={singer.img} width="100%" height="100%" alt={singer.name}
