@@ -38,6 +38,17 @@ export function createAlbumByDetail(data) {
     );
 }
 
+export function createAlbumBySearch(data){
+    return new Album(
+        data.albumID,
+        data.albumMID,
+        data.albumName,
+        data.albumPic,
+        data.singerName,
+        ""
+      );
+}
+
 function filterSinger(singers){
     let singArray = singers.map(singer => {
         return singer.singer_name

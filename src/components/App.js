@@ -7,7 +7,7 @@ import './App.styl';
 
 import Recommend from "./recommend/Recommend"
 import Ranking from "./ranking/Ranking"
-import Search from "./search/Search"
+import Search from "../containers/Search"
 import MusicPlayer from "./play/MusicPlayer"
 import SingerList from "./singer/SingerList"
 
