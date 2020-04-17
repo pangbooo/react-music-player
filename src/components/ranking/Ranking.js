@@ -62,7 +62,7 @@ class Ranking extends React.Component {
                         {
                             this.state.rankingList.map(ranking =>{
                                 return(
-                                    <div className='ranking-wrapper' key={ranking.id} onClick={this.toDetail.bind(this,`${match.url}/${ranking.id}`)}>
+                                    <div className='ranking-wrapper skin-ranking-wrapper' key={ranking.id} onClick={this.toDetail.bind(this,`${match.url}/${ranking.id}`)}>
                                         <div className='left'>
                                             <LazyLoad height={100}>
                                                 <img src={ranking.img} alt={ranking.title}/>

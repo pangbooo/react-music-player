@@ -86,7 +86,7 @@ class Recommend extends React.Component {
             //通过函数创建专辑对象
             let album = AlbumModel.createAlbumByList(item);
             return (
-                <div className='album-wrapper' key={album.mId} onClick={this.toAlbumDetail.bind(this,`${match.url}/${album.mId}`)}> 
+                <div className='album-wrapper skin-album-wrapper' key={album.mId} onClick={this.toAlbumDetail.bind(this,`${match.url}/${album.mId}`)}> 
                     <div className='left'>
                         <LazyLoad>
                             <img src={album.img} width='100%' height='100%' alt={album.name} />
@@ -124,7 +124,7 @@ class Recommend extends React.Component {
                         </div>
 
                         <div className='album-container'>
-                            <h1 className='title'>最新专辑</h1>
+                            <h1 className='title skin-album-wrapper'>最新专辑</h1>
                             <div className='album-list'>
                                 {albums}
                             </div>

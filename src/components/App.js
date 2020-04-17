@@ -10,57 +10,71 @@ import Ranking from "./ranking/Ranking"
 import Search from "../containers/Search"
 import MusicPlayer from "./play/MusicPlayer"
 import SingerList from "./singer/SingerList"
+import MusicMenu from "./setting/Menu"
 
 
-function App() {
-  return (
-    <Router>
-      <div className="app">
-        <header className='app-header'>
-            <img src={logo} className='app-logo' alt='app-logo'/>
-            <h1 className='app-title'>Mango Music</h1>
-        </header>
-        <div className='music-tab'>
-          <div className='tab-item selected'>
-              <NavLink to='/recommend' className='nav-link'>
-                <span>推荐</span>
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+        menuShow: false
+    };
+  }
+
+  render(){
+    return (
+      <Router>
+        <div className="app skin-app">
+          <header className='app-header skin-app-header'>
+              <i className="icon-et-more app-more" onClick={() => {this.setState({menuShow: true});}}></i>
+              <img src={logo} className='app-logo' alt='app-logo'/>
+              <h1 className='app-title'>Mango Music</h1>
+          </header>
+          <div className='music-tab skin-music-tab'>
+            <div className='tab-item selected'>
+                <NavLink to='/recommend' className='nav-link'>
+                  <span>推荐</span>
+                </NavLink>
+            </div>
+            <div className='tab-item'>
+              <NavLink to='/ranking' className='nav-link'>
+                <span>排行榜</span>
               </NavLink>
+            </div>
+            <div className='tab-item'>
+                <NavLink to='/singer' className='nav-link'>
+                  <span>歌手</span>
+                </NavLink>
+            </div>
+            <div className='tab-item'>
+                <NavLink to='/search' className='nav-link'>
+                  <span>搜索</span>
+                </NavLink>
+            </div>
           </div>
-          <div className='tab-item'>
-            <NavLink to='/ranking' className='nav-link'>
-              <span>排行榜</span>
-            </NavLink>
+  
+          <div className='music-view'>
+            {/* 
+              Switch组件用来选择最近的一个路由，否则最后一个没有指定path的路由也会显示
+              Redirect重定向到列表页
+            */}
+            <Switch>
+                <Route path='/recommend' component={Recommend}/>
+                <Route path="/ranking" component={Ranking} />
+                <Route path="/search" component={Search} />
+                <Route path="/singer" component={SingerList} />
+                <Redirect from='/' to='/recommend'/>
+                <Route component={Recommend} />
+            </Switch>
           </div>
-          <div className='tab-item'>
-              <NavLink to='/singer' className='nav-link'>
-                <span>歌手</span>
-              </NavLink>
-          </div>
-          <div className='tab-item'>
-              <NavLink to='/search' className='nav-link'>
-                <span>搜索</span>
-              </NavLink>
-          </div>
+          <MusicPlayer />
+          <MusicMenu show={this.state.menuShow} closeMenu={() => {this.setState({menuShow: false})}}/>
         </div>
-
-        <div className='music-view'>
-          {/* 
-            Switch组件用来选择最近的一个路由，否则最后一个没有指定path的路由也会显示
-            Redirect重定向到列表页
-          */}
-          <Switch>
-              <Route path='/recommend' component={Recommend}/>
-              <Route path="/ranking" component={Ranking} />
-              <Route path="/search" component={Search} />
-              <Route path="/singer" component={SingerList} />
-              <Redirect from='/' to='/recommend'/>
-              <Route component={Recommend} />
-          </Switch>
-        </div>
-        <MusicPlayer />
-      </div>
-      </Router>
-  );
+        </Router>
+    );
+  }
+  
 }
 
 export default App;

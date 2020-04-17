@@ -6,7 +6,8 @@ import localStorage from '@/util/storage'
 const initialState = {
     showStatus: false, //显示状态
     song: localStorage.getCurrentSong(), //当前歌曲
-    songs: localStorage.getSongs() //歌曲列表
+    songs: localStorage.getSongs(), //歌曲列表
+    skin: 'coolBlack'
 }
 
 //拆分Reducer
@@ -47,11 +48,22 @@ function songs(songs=initialState.songs, action){
     }
 }
 
+//设置皮肤
+function skin(skin=initialState.skin, action){
+    switch(action.type){
+        case ActionTypes.SET_SKIN:
+            return action.skin;
+            break;
+        default: 
+            return skin;
+    }
+}
 
 const reducer = combineReducers({
     showStatus,
     song,
-    songs
+    songs,
+    skin
 });
 
 export default reducer;
