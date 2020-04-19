@@ -1,3 +1,4 @@
+import localStorage from "./storage"
 const skin = {};
 
 skin.coolBlack = {
@@ -209,6 +210,6 @@ let setSkinStyle = (skin) => {
 }
 
 //设置皮肤
-setSkinStyle(skin.coolBlack);
+setSkinStyle(skin[localStorage.getSkin()]);
 
 export {skin,setSkinStyle}

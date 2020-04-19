@@ -13,6 +13,13 @@ let localStorage = {
         let songs = window.localStorage.getItem('songs', JSON.stringify(songs));
         return songs ? JSON.parse(songs) :  [];
     },
+    setSkin(key) {
+        window.localStorage.setItem('skin', key)
+    },
+    getSkin(){
+        let skin = window.localStorage.getItem('skin')
+        return !skin ? 'coolBlack' : skin
+    }
 }
 
 export default localStorage

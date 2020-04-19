@@ -7,7 +7,7 @@ const initialState = {
     showStatus: false, //显示状态
     song: localStorage.getCurrentSong(), //当前歌曲
     songs: localStorage.getSongs(), //歌曲列表
-    skin: 'coolBlack'
+    skin: localStorage.getSkin()
 }
 
 //拆分Reducer
@@ -52,6 +52,7 @@ function songs(songs=initialState.songs, action){
 function skin(skin=initialState.skin, action){
     switch(action.type){
         case ActionTypes.SET_SKIN:
+            localStorage.setSkin(action.skin);
             return action.skin;
             break;
         default: 
