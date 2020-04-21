@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { showPlayer, changeSong, setSongs } from '../redux/actions';
-import Album from '../components/album/Album';
+import Album from '../views/album/Album';
 
 // const mapStateToProps = (state /*, ownProps*/) => {
 //     return {}

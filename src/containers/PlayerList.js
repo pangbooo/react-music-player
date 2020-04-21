@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { changeSong, removeSong } from '../redux/actions'
-import PlayerList from '../components/play/PlayerList';
+import PlayerList from '../views/play/PlayerList';
 
 const mapStateToProps = (state) => ({
     currentSong: state.song,
