@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
 import {Route} from 'react-router-dom';
-import Scroll from '@/common/scroll/Scroll'
-import Loading from "@/common/loading/Loading"
+import Scroll from '@/components/scroll/Scroll'
+import Loading from "@/components/loading/Loading"
 import LazyLoad, {forceCheck} from 'react-lazyload'
 import {getSingerList} from "@/api/singer"
 import {CODE_SUCCESS} from "@/api/config"
@@ -147,15 +147,15 @@ class SingerList extends React.Component{
 
     render(){
         let tags = this.types.map(type => (
-            <a key={type.key} className={type.key === this.state.typeKey ? 'choose': ''} onClick={() => {this.handleTypeClick(type.key)}}>
+            <div key={type.key} className={type.key === this.state.typeKey ? 'choose': ''} onClick={() => {this.handleTypeClick(type.key)}}>
                 {type.name}
-            </a>
+            </div>
         ));
 
         let indexs = this.indexs.map(type => (
-            <a key={type.key} className={type.key === this.state.indexKey ? 'choose': ''} onClick={() => {this.handleIndexClick(type.key);}}>
+            <div key={type.key} className={type.key === this.state.indexKey ? 'choose': ''} onClick={() => {this.handleIndexClick(type.key);}}>
                 {type.name}
-            </a>
+            </div>
         ));
 
         let singers = this.state.singers.map(singer => {

@@ -1,7 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import { CSSTransition } from "react-transition-group"
-import Scroll from "@/common/scroll/Scroll"
+import Scroll from "@/components/scroll/Scroll"
 
 import "./playerlist.styl"
 

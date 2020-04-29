@@ -54,7 +54,6 @@ function skin(skin=initialState.skin, action){
         case ActionTypes.SET_SKIN:
             localStorage.setSkin(action.skin);
             return action.skin;
-            break;
         default: 
             return skin;
     }

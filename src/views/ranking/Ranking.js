@@ -2,8 +2,8 @@ import React from "react"
 import { getRankingList } from '@/api/ranking'
 import { CODE_SUCCESS }  from '@/api/config'
 import * as RankingModel from '@/model/ranking'
-import Scroll from '@/common/scroll/Scroll'
-import Loading from '@/common/loading/Loading'
+import Scroll from '@/components/scroll/Scroll'
+import Loading from '@/components/loading/Loading'
 import LazyLoad, {forceCheck} from 'react-lazyload';
 import {Route} from 'react-router-dom'
 import RankingInfo from '@/containers/Ranking';

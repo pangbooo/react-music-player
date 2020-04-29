@@ -1,10 +1,10 @@
 import React from "react"
 import ReactDOM from 'react-dom'
-import Scroll from "@/common/scroll/Scroll"
+import Scroll from "@/components/scroll/Scroll"
 import { Route } from "react-router-dom"
 import Album from "@/containers/Album"
 import Singer from "@/containers/Singer"
-import Loading from "@/common/loading/Loading"
+import Loading from "@/components/loading/Loading"
 import {getHotKey, search} from "@/api/search"
 import { getSongVKey } from "@/api/song"
 import {CODE_SUCCESS} from "@/api/config"
@@ -137,6 +137,8 @@ class Search extends React.Component {
                             }
                         });
                         break;
+                default:
+                        return
             }
         }
     }

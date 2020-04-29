@@ -10,7 +10,7 @@ let localStorage = {
         window.localStorage.setItem('songs', JSON.stringify(songs))
     },
     getSongs(){
-        let songs = window.localStorage.getItem('songs', JSON.stringify(songs));
+        let songs = window.localStorage.getItem('songs');
         return songs ? JSON.parse(songs) :  [];
     },
     setSkin(key) {

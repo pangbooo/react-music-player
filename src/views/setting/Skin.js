@@ -24,7 +24,7 @@ import './skin.styl'
 
      render() {
          return (
-             <CSSTransition in={this.props.show} in={300} classNames='pop'
+             <CSSTransition in={this.props.show} time={300} classNames='pop'
                             onEnter={() => {
                                 this.refs.skin.style.display = 'block'
                             }}

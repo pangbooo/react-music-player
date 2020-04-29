@@ -2,10 +2,10 @@ import React from "react";
 import {Route} from 'react-router-dom'
 import Swiper from 'swiper';
 import "swiper/dist/css/swiper.css"
-import "./recommend.styl";
+import style from "./recommend.styl?module";
 import LazyLoad, { forceCheck } from 'react-lazyload';
-import Scroll from '@/common/scroll/Scroll'
-import Loading from '@/common/loading/Loading';
+import Scroll from '@/components/scroll/Scroll'
+import Loading from '@/components/loading/Loading';
 import * as AlbumModel from '@/model/album';
 import { getCarousel, geNewAlbum } from "@/api/recommend"
 import { CODE_SUCCESS } from "@/api/config"
@@ -112,9 +112,9 @@ class Recommend extends React.Component {
                                     this.state.sliderList.map(slider => {
                                         return (
                                             <div className='swiper-slide' key={slider.album_id}>
-                                                <a className="slider-nav" >
+                                                <div className="slider-nav" >
                                                     <img src={slider.picurl} width="100%" height="100%" alt="推荐"/>
-                                                </a>
+                                                </div>
                                             </div>
                                         )
                                     })
@@ -124,7 +124,7 @@ class Recommend extends React.Component {
                         </div>
 
                         <div className='album-container'>
-                            <h1 className='title skin-album-wrapper'>最新专辑</h1>
+                            <h1 className={`${style.title} skin-album-wrapper`}>最新专辑</h1>
                             <div className='album-list'>
                                 {albums}
                             </div>
