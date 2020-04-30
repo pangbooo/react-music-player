@@ -458,7 +458,7 @@ module.exports = function(webpackEnv) {
                     camelCase: true,
                     importLoaders: 2,
                     sourceMap: isEnvProduction && shouldUseSourceMap,
-                    module: true,
+                    modules: true,
                     getLocalIdent: getCSSModuleLocalIdent
                   },
                     'stylus-loader'

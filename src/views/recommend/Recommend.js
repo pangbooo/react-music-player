@@ -2,7 +2,7 @@ import React from "react";
 import {Route} from 'react-router-dom'
 import Swiper from 'swiper';
 import "swiper/dist/css/swiper.css"
-import style from "./recommend.styl?module";
+import style from "./recommend.styl?module"
 import LazyLoad, { forceCheck } from 'react-lazyload';
 import Scroll from '@/components/scroll/Scroll'
 import Loading from '@/components/loading/Loading';
@@ -81,6 +81,7 @@ class Recommend extends React.Component {
     }
 
     render() {
+        console.log('style', style)
         let { match } = this.props;
         let albums = this.state.newAlbums.map(item => {
             //通过函数创建专辑对象
