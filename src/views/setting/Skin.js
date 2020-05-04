@@ -13,6 +13,8 @@ import './skin.styl'
             {key: "netBaseRed", name: "网易红", color: "#D43C33"},
             {key: "qqGreen", name: "QQ绿", color: "#31C27C"}
          ]
+
+         this.skinRef = React.createRef();
      }
 
      setCurrentSkin = (key) => {
@@ -26,12 +28,12 @@ import './skin.styl'
          return (
              <CSSTransition in={this.props.show} time={300} classNames='pop'
                             onEnter={() => {
-                                this.refs.skin.style.display = 'block'
+                                this.skinRef.current.style.display = 'block'
                             }}
                             onExited={() => {
-                                this.refs.skin.style.display = 'none'
+                                this.skinRef.current.style.display = 'none'
                             }}>
-                                <div className='music-skin' ref='skin' style={{display: this.props.show ? 'block': 'none'}}>
+                                <div className='music-skin' ref={this.skinRef} style={{display: this.props.show ? 'block': 'none'}}>
                                     <div className='header'>
                                         皮肤中心
                                         <span className='cancel' onClick={() => {this.props.close();}}>取消</span>

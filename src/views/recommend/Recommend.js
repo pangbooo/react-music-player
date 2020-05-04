@@ -87,16 +87,16 @@ class Recommend extends React.Component {
             //通过函数创建专辑对象
             let album = AlbumModel.createAlbumByList(item);
             return (
-                <div className='album-wrapper skin-album-wrapper' key={album.mId} onClick={this.toAlbumDetail.bind(this,`${match.url}/${album.mId}`)}> 
-                    <div className='left'>
+                <div className={`${style['album-wrapper']} skin-album-wrapper`} key={album.mId} onClick={this.toAlbumDetail.bind(this,`${match.url}/${album.mId}`)}> 
+                    <div className={style.left}>
                         <LazyLoad>
                             <img src={album.img} width='100%' height='100%' alt={album.name} />
                         </LazyLoad>
                     </div>
-                    <div className='right'>
-                        <div className='album-name'>{album.name}</div>
-                        <div className='singer-name'>{album.singer}</div>
-                        <div className='public—time'>{album.publicTime}</div>
+                    <div className={style.right}>
+                        <div className={style[`album-name`]}>{album.name}</div>
+                        <div className={style['singer-name']}>{album.singer}</div>
+                        <div className={style['public—time']}>{album.publicTime}</div>
                     </div>
                 </div>
             )
@@ -124,9 +124,9 @@ class Recommend extends React.Component {
                             <div className='swiper-pagination'></div>
                         </div>
 
-                        <div className='album-container'>
+                        <div className={style['album-container']}>
                             <h1 className={`${style.title} skin-album-wrapper`}>最新专辑</h1>
-                            <div className='album-list'>
+                            <div className={style['album-list']}>
                                 {albums}
                             </div>
                         </div>

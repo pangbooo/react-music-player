@@ -68,6 +68,10 @@ class SingerList extends React.Component{
             singers: [],
             refreshScroll: false
         }
+
+        this.tagRef = React.createRef();
+        this.indexRef = React.createRef();
+        this.singerScrollRef = React.createRef()
     }
 
     componentDidMount() {
@@ -77,7 +81,7 @@ class SingerList extends React.Component{
     }
     
     initNavScrollWidth(){
-        let tagDOM = ReactDOM.findDOMNode(this.refs.tag);
+        let tagDOM = this.tagRef.current;
         let tagElems = tagDOM.querySelectorAll('a');
         let tagTotalWidth = 0;
         Array.from(tagElems).forEach(a => {
@@ -85,7 +89,7 @@ class SingerList extends React.Component{
         });
         tagDOM.style.width = `${tagTotalWidth}px`;
 
-        let indexDOM = ReactDOM.findDOMNode(this.refs.index);
+        let indexDOM = this.indexRef.current;
         let indexElems = indexDOM.querySelectorAll("a");
         let indexTotalWidth = 0;
         Array.from(indexElems).forEach(a => {
@@ -181,17 +185,17 @@ class SingerList extends React.Component{
             <div className='music-singers skin-music-singers'>
                 <div className='nav'>
                     <Scroll direction='horizontal'>
-                        <div className='tag' ref='tag'>
+                        <div className='tag' ref={this.tagRef}>
                             {tags}
                         </div>
                     </Scroll>
                     <Scroll direction='horizontal'>
-                        <div className='index' ref='index'>
+                        <div className='index' ref={this.indexRef}>
                             {indexs}
                         </div>
                     </Scroll>
                     <div className='singer-list'>
-                        <Scroll refresh={this.state.refreshScroll} ref='singerScroll' onScroll={() => {forceCheck();}}>
+                        <Scroll refresh={this.state.refreshScroll} ref={this.singerScrollRef} onScroll={() => {forceCheck();}}>
                             <div className='singer-container'>
                                 {singers}
                             </div>

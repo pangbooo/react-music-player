@@ -21,11 +21,19 @@ class Album extends React.Component {
             album: {},
             songs: []
         }
+
+        this.albumBgRef = React.createRef();
+        this.albumFixedBgRef = React.createRef();
+        this.playButtonWrapperRef = React.createRef();
+        this.albumContainerRef = React.createRef();
+        this.musicIco1Ref = React.createRef();
+        this.musicIco2Ref = React.createRef();
+        this.musicIco3Ref = React.createRef();
     }
 
     componentDidMount(){
-        let albumBgDOM = ReactDOM.findDOMNode(this.refs.albumBg);
-        let albumContainerDOM  = ReactDOM.findDOMNode(this.refs.albumContainer );
+        let albumBgDOM = this.albumBgRef.current;
+        let albumContainerDOM  = this.albumContainerRef.current;
         albumContainerDOM.style.top = albumBgDOM.offsetHeight + 'px'
 
         this.initMusicIco();
@@ -82,9 +90,9 @@ class Album extends React.Component {
     }
 
     scroll({y}){
-        let albumBgDOM = ReactDOM.findDOMNode(this.refs.albumBg);
-        let albumFixedBgDOM  = ReactDOM.findDOMNode(this.refs.albumFixedBg );
-        let playButtonWrapperDOM = ReactDOM.findDOMNode(this.refs.playButtonWrapper)
+        let albumBgDOM = this.albumBgRef.current;
+        let albumFixedBgDOM  = this.albumFixedBgRef.current
+        let playButtonWrapperDOM = this.playButtonWrapperRef.current
 
         //scroll to top
         if(y < 0){
@@ -120,9 +128,9 @@ class Album extends React.Component {
 
     initMusicIco = () => {
         this.musicIcos = [];
-        this.musicIcos.push(ReactDOM.findDOMNode(this.refs.musicIco1));
-        this.musicIcos.push(ReactDOM.findDOMNode(this.refs.musicIco2));
-        this.musicIcos.push(ReactDOM.findDOMNode(this.refs.musicIco3));
+        this.musicIcos.push(this.musicIco1Ref.current);
+        this.musicIcos.push(this.musicIco2Ref.current);
+        this.musicIcos.push(this.musicIco3Ref.current);
 
         this.musicIcos.forEach((item) => {
             item.run = false;
@@ -180,20 +188,20 @@ class Album extends React.Component {
                 <div className='music-album'>
                     <Header title={album.name}/>
                     <div style={{position:'relative'}}>
-                        <div className='album-img' ref='albumBg' style={{backgroundImage: `url(${album.img})`}}>
+                        <div className='album-img' ref={this.albumBgRef} style={{backgroundImage: `url(${album.img})`}}>
                             <div className='filter'></div>
                         </div>
-                        <div className='album-img fixed' ref='albumFixedBg' style={{backgroundImage: `url(${album.img})`}}>
+                        <div className='album-img fixed' ref={this.albumFixedBgRef} style={{backgroundImage: `url(${album.img})`}}>
                             <div className='filter'></div>
                         </div>
-                        <div className='play-wrapper' ref='playButtonWrapper'>
+                        <div className='play-wrapper' ref={this.playButtonWrapperRef}>
                             <div className='play-button' onClick={this.playAll}>
                                 <i className='icon-play'></i>
                                 <span>播放全部</span>
                             </div>
                         </div>
                     </div>
-                    <div ref='albumContainer' className='album-container'>
+                    <div ref={this.albumContainerRef} className='album-container'>
                         <div className='album-scroll' style={this.state.loading === true ? {display:"none"} : {}}>
                             <Scroll refresh={this.state.refreshScroll} onScroll={this.scroll.bind(this)}>
                                 <div className='album-wrapper skin-detail-wrapper'>
@@ -211,13 +219,13 @@ class Album extends React.Component {
                             </Scroll>
                         </div>
                     </div>
-                    <div className='music-ico' ref='musicIco1'>
+                    <div className='music-ico' ref={this.musicIco1Ref}>
                         <div className='icon-fe-music'></div>
                     </div>
-                    <div className='music-ico' ref='musicIco2'>
+                    <div className='music-ico' ref={this.musicIco2Ref}>
                         <div className='icon-fe-music'></div>
                     </div>
-                    <div className='music-ico' ref='musicIco3'>
+                    <div className='music-ico' ref={this.musicIco3Ref}>
                         <div className='icon-fe-music'></div>
                     </div>
                 </div>

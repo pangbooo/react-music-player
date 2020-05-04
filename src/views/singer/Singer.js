@@ -25,6 +25,15 @@ class Singer extends React.Component {
             songs: [],
             refreshScroll: false
         }
+
+        this.headerRef = React.createRef();
+        this.albumBgRef = React.createRef();
+        this.albumFixedBgRef = React.createRef();
+        this.playButtonWrapperRef = React.createRef();
+        this.albumContainerRef = React.createRef();
+        this.musicIco1Ref = React.createRef();
+        this.musicIco2Ref = React.createRef();
+        this.musicIco3Ref = React.createRef();
     }
 
     componentDidMount() {
@@ -34,8 +43,8 @@ class Singer extends React.Component {
 
         this.initMusicIco();
 
-        let albumBgDOM = ReactDOM.findDOMNode(this.refs.albumBg);
-        let albumContainerDOM = ReactDOM.findDOMNode(this.refs.albumContainer);
+        let albumBgDOM = this.albumBgRef.current;
+        let albumContainerDOM = this.albumContainerRef.current
         albumContainerDOM.style.top = albumBgDOM.offsetHeight + "px";
 
         console.log(this.props)
@@ -83,9 +92,9 @@ class Singer extends React.Component {
     }
 
     scroll = ({y}) => {
-        let albumBgDOM = ReactDOM.findDOMNode(this.refs.albumBg);
-        let albumFixedBgDOM = ReactDOM.findDOMNode(this.refs.albumFixedBg);
-        let playButtonWrapperDOM = ReactDOM.findDOMNode(this.refs.playButtonWrapper);
+        let albumBgDOM = this.albumBgRef.current;
+        let albumFixedBgDOM = this.albumFixedBgRef.current
+        let playButtonWrapperDOM = this.playButtonWrapperRef.current
         if (y < 0) {
             if (Math.abs(y) + 55 > albumBgDOM.offsetHeight) {
                 albumFixedBgDOM.style.display = "block";
@@ -118,9 +127,9 @@ class Singer extends React.Component {
     
     initMusicIco = () => {
         this.musicIcos = [];
-        this.musicIcos.push(ReactDOM.findDOMNode(this.refs.musicIco1));
-        this.musicIcos.push(ReactDOM.findDOMNode(this.refs.musicIco2));
-        this.musicIcos.push(ReactDOM.findDOMNode(this.refs.musicIco3));
+        this.musicIcos.push(this.musicIco1Ref.current)
+        this.musicIcos.push(this.musicIco2Ref.current)
+        this.musicIcos.push(this.musicIco3Ref.current)
 
         this.musicIcos.forEach((item) => {
             item.run = false;
@@ -178,22 +187,22 @@ class Singer extends React.Component {
         return (
             <CSSTransition in={this.state.show} timeout={300} classNames="translate">
                 <div className="music-singer">
-                    <Header title={singer.name} ref="header"></Header>
+                    <Header title={singer.name} ref={this.headerRef}></Header>
                     <div style={{position:"relative"}}>
-                        <div ref="albumBg" className="singer-img" style={{backgroundImage: `url(${singer.img})`}}>
+                        <div ref={this.albumBgRef} className="singer-img" style={{backgroundImage: `url(${singer.img})`}}>
                             <div className="filter"></div>
                         </div>
-                        <div ref="albumFixedBg" className="singer-img fixed" style={{backgroundImage: `url(${singer.img})`}}>
+                        <div ref={this.albumFixedBgRef} className="singer-img fixed" style={{backgroundImage: `url(${singer.img})`}}>
                             <div className="filter"></div>
                         </div>
-                        <div className="play-wrapper" ref="playButtonWrapper">
+                        <div className="play-wrapper" ref={this.playButtonWrapperRef}>
                             <div className="play-button" onClick={this.playAll}>
                                 <i className="icon-play"></i>
                                 <span>播放全部</span>
                             </div>
                         </div>
                     </div>
-                    <div ref="albumContainer" className="singer-container">
+                    <div ref={this.albumContainerRef} className="singer-container">
                         <div className="singer-scroll" style={this.state.loading === true ? {display:"none"} : {}}>
                             <Scroll refresh={this.state.refreshScroll} onScroll={this.scroll}>
                                 <div className="singer-wrapper skin-detail-wrapper">
@@ -206,13 +215,13 @@ class Singer extends React.Component {
                         </div>
                         <Loading title="正在加载..." show={this.state.loading}/>
                     </div>
-                    <div className='music-ico' ref='musicIco1'>
+                    <div className='music-ico' ref={this.musicIco1Ref}>
                         <div className='icon-fe-music'></div>
                     </div>
-                    <div className='music-ico' ref='musicIco2'>
+                    <div className='music-ico' ref={this.musicIco2Ref}>
                         <div className='icon-fe-music'></div>
                     </div>
-                    <div className='music-ico' ref='musicIco3'>
+                    <div className='music-ico' ref={this.musicIco3Ref}>
                         <div className='icon-fe-music'></div>
                     </div>
                 </div>

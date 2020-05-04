@@ -9,6 +9,8 @@ class Menu extends React.Component {
         this.state = {
             skinShow: false
         }
+
+        this.bottomRef = React.createRef();
     }
 
     close = () => {
@@ -30,12 +32,12 @@ class Menu extends React.Component {
             <div>
                 <CSSTransition in={this.props.show} timeout={300} classNames='fade'
                             onEnter={() => {
-                                this.refs.bottom.style.display = 'block'
+                                this.bottomRef.current.style.display = 'block'
                             }}
                             onExited={() => {
-                                this.refs.bottom.style.display = 'none'
+                                this.bottomRef.current.style.display = 'none'
                             }}>
-                            <div className='bottom-container' onClick={this.close} ref='bottom'>
+                            <div className='bottom-container' onClick={this.close} ref={this.bottomRef}>
                                 <div className='bottom-wrapper'>
                                     <div className='item' onClick={() => {this.showSetting(true);}}>皮肤中心</div>
                                     <div className='item-close' onClick={this.close}>关闭</div>

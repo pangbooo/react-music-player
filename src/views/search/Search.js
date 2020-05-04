@@ -29,6 +29,10 @@ class Search extends React.Component {
             w: "",
             loading: false
         }
+
+        this.musicIco1Ref = React.createRef();
+        this.musicIco2Ref = React.createRef();
+        this.musicIco3Ref = React.createRef();
     }
     componentDidMount(){
         getHotKey().then(res => {
@@ -145,9 +149,9 @@ class Search extends React.Component {
 
     initMusicIco = () => {
         this.musicIcos = [];
-        this.musicIcos.push(ReactDOM.findDOMNode(this.refs.musicIco1));
-        this.musicIcos.push(ReactDOM.findDOMNode(this.refs.musicIco2));
-        this.musicIcos.push(ReactDOM.findDOMNode(this.refs.musicIco3));
+        this.musicIcos.push(this.musicIco1Ref.current);
+        this.musicIcos.push(this.musicIco2Ref.current);
+        this.musicIcos.push(this.musicIco3Ref.current);
 
         this.musicIcos.forEach((item) => {
             item.run = false;
@@ -266,13 +270,13 @@ class Search extends React.Component {
                         </div>
                         <Loading title="正在加载..." show={this.state.loading}/>
                     </Scroll>
-                    <div className='music-ico' ref='musicIco1'>
+                    <div className='music-ico' ref={this.musicIco1Ref}>
                         <div className='icon-fe-music'></div>
                     </div>
-                    <div className='music-ico' ref='musicIco2'>
+                    <div className='music-ico' ref={this.musicIco2Ref}>
                         <div className='icon-fe-music'></div>
                     </div>
-                    <div className='music-ico' ref='musicIco3'>
+                    <div className='music-ico' ref={this.musicIco3Ref}>
                         <div className='icon-fe-music'></div>
                     </div>
                 </div>
