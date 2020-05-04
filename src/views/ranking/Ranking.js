@@ -5,8 +5,7 @@ import * as RankingModel from '@/model/ranking'
 import Scroll from '@/components/scroll/Scroll'
 import Loading from '@/components/loading/Loading'
 import LazyLoad, {forceCheck} from 'react-lazyload';
-import {Route} from 'react-router-dom'
-import RankingInfo from '@/containers/Ranking';
+import { renderRoutes } from 'react-router-config'
 import "./ranking.styl"
 
 class Ranking extends React.Component {
@@ -90,7 +89,9 @@ class Ranking extends React.Component {
                     </div>
                 </Scroll>
                 <Loading title='正在加载...' show={this.state.loading}/>
-                <Route path={`${match.url + '/:id'}`} component={RankingInfo}/>
+                {
+                    renderRoutes(this.props.route.routes)
+                }
             </div>
         );
     }

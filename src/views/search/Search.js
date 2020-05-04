@@ -1,5 +1,4 @@
 import React from "react"
-import ReactDOM from 'react-dom'
 import Scroll from "@/components/scroll/Scroll"
 import { Route } from "react-router-dom"
 import Album from "@/containers/Album"

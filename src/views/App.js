@@ -1,15 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect, NavLink } from 'react-router-dom';
+import { renderRoutes } from 'react-router-config'
+import router from '../router/router'
 import logo from '../assets/imgs/logo.png';
 import '../assets/stylus/reset.styl';
 import '../assets/stylus/font.styl'
 import './App.styl';
 
-import Recommend from "./recommend/Recommend"
-import Ranking from "./ranking/Ranking"
-import Search from "../containers/Search"
 import MusicPlayer from "./play/MusicPlayer"
-import SingerList from "./singer/SingerList"
 import MusicMenu from "./setting/Menu"
 
 
@@ -59,13 +57,13 @@ class App extends React.Component {
               Switch组件用来选择最近的一个路由，否则最后一个没有指定path的路由也会显示
               Redirect重定向到列表页
             */}
+            {/* 
+              Redirect exact 与Route的exact 意义相同
+            */}
             <Switch>
-                <Route path='/recommend' component={Recommend}/>
-                <Route path="/ranking" component={Ranking} />
-                <Route path="/search" component={Search} />
-                <Route path="/singer" component={SingerList} />
-                <Redirect from='/' to='/recommend'/>
-                <Route component={Recommend} />
+                <Redirect from='/' to='/recommend' exact/>
+                {/* 渲染Route */}
+                { renderRoutes(router) }
             </Switch>
           </div>
           <MusicPlayer />

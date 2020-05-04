@@ -1,5 +1,4 @@
 import React from "react"
-import ReactDOM from 'react-dom'
 import { getTransitionEndName } from "@/util/event"
 import {CSSTransition} from "react-transition-group"
 import Header from "@/views/header/Header"

@@ -1,5 +1,5 @@
 import React from "react";
-import {Route} from 'react-router-dom'
+import { renderRoutes } from 'react-router-config'
 import Swiper from 'swiper';
 import "swiper/dist/css/swiper.css"
 import style from "./recommend.styl?module"
@@ -9,8 +9,6 @@ import Loading from '@/components/loading/Loading';
 import * as AlbumModel from '@/model/album';
 import { getCarousel, geNewAlbum } from "@/api/recommend"
 import { CODE_SUCCESS } from "@/api/config"
-
-import Album from '@/containers/Album'
 
 
 class Recommend extends React.Component {
@@ -81,7 +79,7 @@ class Recommend extends React.Component {
     }
 
     render() {
-        console.log('style', style)
+        console.log('props', this.props)
         let { match } = this.props;
         let albums = this.state.newAlbums.map(item => {
             //通过函数创建专辑对象
@@ -133,7 +131,9 @@ class Recommend extends React.Component {
                     </div>
                 </Scroll>
                 <Loading show={this.state.loading}/>
-                <Route path={`${match.url + '/:id'}`} component={Album}/>
+                {
+                    renderRoutes(this.props.route.routes)
+                }
             </div>
         );
     }

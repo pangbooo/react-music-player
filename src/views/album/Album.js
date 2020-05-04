@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Header from '@/views/header/Header';
 import Scroll from '@/components/scroll/Scroll';
 import { getTransitionEndName } from "@/util/event"
