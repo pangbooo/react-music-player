@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect, NavLink } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Redirect, NavLink } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config'
 import router from '../router/router'
 import logo from '../assets/imgs/logo.png';

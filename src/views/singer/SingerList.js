@@ -1,12 +1,11 @@
 import React from 'react';
-import {Route} from 'react-router-dom';
+import { renderRoutes } from 'react-router-config'
 import Scroll from '@/components/scroll/Scroll'
 import Loading from "@/components/loading/Loading"
 import LazyLoad, {forceCheck} from 'react-lazyload'
 import {getSingerList} from "@/api/singer"
 import {CODE_SUCCESS} from "@/api/config"
 import * as SingerModel from "@/model/singer"
-import Singer from "@/containers/Singer"
 import './singerlist.styl'
 
 
@@ -80,8 +79,9 @@ class SingerList extends React.Component{
     }
     
     initNavScrollWidth(){
+        console.log(this.tagRef.current)
         let tagDOM = this.tagRef.current;
-        let tagElems = tagDOM.querySelectorAll('a');
+        let tagElems = tagDOM.querySelectorAll('div');
         let tagTotalWidth = 0;
         Array.from(tagElems).forEach(a => {
             tagTotalWidth += a.offsetWidth;
@@ -89,7 +89,7 @@ class SingerList extends React.Component{
         tagDOM.style.width = `${tagTotalWidth}px`;
 
         let indexDOM = this.indexRef.current;
-        let indexElems = indexDOM.querySelectorAll("a");
+        let indexElems = indexDOM.querySelectorAll("div");
         let indexTotalWidth = 0;
         Array.from(indexElems).forEach(a => {
             indexTotalWidth += a.offsetWidth;
@@ -202,7 +202,10 @@ class SingerList extends React.Component{
                     </div>
                     <Loading title='正在加载' show={this.state.loading}/>
                 </div>
-                <Route path={`${this.props.match.url}/:id`} component={Singer}/>
+                {/* <Route path={`${this.props.match.url}/:id`} component={Singer}/> */}
+                {
+                    renderRoutes(this.props.route.routes)
+                }
             </div>
         )
 

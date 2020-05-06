@@ -21,6 +21,9 @@ const Recommend = withSuspense(lazy(() => import('../views/recommend/Recommend')
 const Album =withSuspense(lazy(() => import('../containers/Album')))
 const Ranking = withSuspense(lazy(() => import('../views/ranking/Ranking')))
 const RankingInfo = withSuspense(lazy(() => import('@/containers/Ranking')))
+const Search = withSuspense(lazy(() => import("../containers/Search")))
+const SingerList = withSuspense(lazy(() => import("../views/singer/SingerList")))
+const Singer = withSuspense(lazy(() => import("@/containers/Singer")))
 
 const router = [
     {
@@ -40,6 +43,30 @@ const router = [
             {
                 path: '/ranking/:id',
                 component: RankingInfo
+            }
+        ]
+    },
+    {
+        path:"/search",
+        component: Search,
+        routes: [
+            {
+                path: '/search/album/:id',
+                component: Album
+            },
+            {
+                path: '/search/singer/:id',
+                component: Singer
+            }
+        ]
+    },
+    {
+        path: '/singer',
+        component: SingerList,
+        routes: [
+            {
+                path: '/singer/:id',
+                component: Singer
             }
         ]
     }

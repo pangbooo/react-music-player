@@ -1,8 +1,9 @@
 import React from "react"
 import Scroll from "@/components/scroll/Scroll"
-import { Route } from "react-router-dom"
-import Album from "@/containers/Album"
-import Singer from "@/containers/Singer"
+// import { Route } from "react-router-dom"
+// import Album from "@/containers/Album"
+// import Singer from "@/containers/Singer"
+import { renderRoutes } from 'react-router-config'
 import Loading from "@/components/loading/Loading"
 import {getHotKey, search} from "@/api/search"
 import { getSongVKey } from "@/api/song"
@@ -279,8 +280,11 @@ class Search extends React.Component {
                         <div className='icon-fe-music'></div>
                     </div>
                 </div>
-                <Route path={`${this.props.match.url + '/album/:id'}`} component={Album} />
-                <Route path={`${this.props.match.url + '/singer/:id'}`} component={Singer} />
+                {/* <Route path={`${this.props.match.url + '/album/:id'}`} component={Album} /> */}
+                {/* <Route path={`${this.props.match.url + '/singer/:id'}`} component={Singer} /> */}
+                {
+                    renderRoutes(this.props.route.routes)
+                }
       
             </div>
         );
